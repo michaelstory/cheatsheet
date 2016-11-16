@@ -4,10 +4,17 @@
 
 <https://github.com/batchdev/inuitcss>
 
+hr
+
+
+
 # 3rd Party Helpers
 
 ## Text Transform
 <https://convertcase.net/>
+
+hr
+
 
 
 # Timber Twig
@@ -25,11 +32,13 @@ Use Slice
 
 {# outputs 23 #}
 ```
+
 ```
 {% for i in [1, 2, 3, 4, 5]|slice(start, length) %}
     {# ... #}
 {% endfor %}
 ```
+
 This example only grabs 1
 ```
 {% for banner_image in post.get_field('banner_backgrounds')|slice(0,1) %}
