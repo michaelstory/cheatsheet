@@ -8,6 +8,65 @@
 
 $spacing-unit: $inuit-global-spacing-unit;
 
+## Custom Spacing
+
+```
+$inuit-spacing-directions: (
+  null: null,
+  't': '-top',
+  'r': '-right',
+  'b': '-bottom',
+  'l': '-left',
+  'h': '-left' '-right',
+  'v': '-top' '-bottom',
+) !default;
+
+$inuit-spacing-properties: (
+  'padding': 'p',
+  'margin': 'm'
+);
+
+$inuit-spacing-sizes: (
+  null: $inuit-global-spacing-unit,
+  '--': $inuit-global-spacing-unit-tiny,
+  '-': $inuit-global-spacing-unit-small,
+  \+: $inuit-global-spacing-unit-large,
+  \+\+: $inuit-global-spacing-unit-huge,
+  '0': 0
+) !default;
+```
+
+make it responsive
+
+```
+@if (variable-exists(mq-breakpoints)) {
+
+  @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
+
+    @include mq($from: $inuit-bp-name) {
+      @each $property, $property-namespace in $inuit-spacing-properties {
+
+        @each $direction, $direction-namespace in $inuit-spacing-directions {
+
+          @each $size, $value in $inuit-spacing-sizes {
+
+            .u-#{$property-namespace}#{$direction-namespace}#{$size}\@#{$inuit-bp-name} {
+              #{$property}#{$direction}: $value !important;
+            }
+
+          }
+
+        }
+
+      }
+      
+    }
+
+  }
+
+}
+```
+
 ---
 
 
@@ -130,6 +189,46 @@ Output:
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
 </script>
+```
+---
+
+# ACF
+
+## Options Page
+
+```
+if( function_exists('acf_add_options_page') ) {
+	
+	acf_add_options_page();
+	
+}
+```
+
+```
+
+<?php the_field('field_name', 'option'); ?>
+
+```
+
+### Timber
+
+<https://github.com/timber/timber/blob/master/docs/wiki/_acf-cookbook.md#options-page>
+
+```
+/* functions.php */
+add_filter( 'timber_context', 'mytheme_timber_context'  );
+
+function mytheme_timber_context( $context ) {
+    $context['options'] = get_fields('option');
+    return $context;
+}
+```
+
+then
+
+```
+/* footer.twig */
+<footer>{{options.copyright_info}}</footer>
 ```
 
 
