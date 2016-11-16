@@ -4,7 +4,7 @@
 
 <https://github.com/batchdev/inuitcss>
 
-hr
+---
 
 
 
@@ -13,7 +13,7 @@ hr
 ## Text Transform
 <https://convertcase.net/>
 
-hr
+---
 
 
 
