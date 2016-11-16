@@ -4,6 +4,10 @@
 
 <https://github.com/batchdev/inuitcss>
 
+## Alias
+
+$spacing-unit: $inuit-global-spacing-unit;
+
 ---
 
 
@@ -15,6 +19,9 @@
 
 ## Word and Letter Count
 <https://wordcounter.net/>
+
+## SVGO
+<https://jakearchibald.github.io/svgomg/>
 
 ---
 
