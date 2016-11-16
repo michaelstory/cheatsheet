@@ -39,11 +39,23 @@ Use Slice
 {% endfor %}
 ```
 
-This example only grabs 1
+## Loop iteration and grab random ACF
+
+First randomize in PHP file, got this from <https://support.advancedcustomfields.com/forums/topic/random-repeater/>
+
 ```
-{% for banner_image in post.get_field('banner_backgrounds')|slice(0,1) %}
-{% set banner_image = random(post.get_field('banner_backgrounds')) %}
-  <div class="c-section c-section-one u-pb0" style="background-image: url('{{TimberImage(banner_image.image).src}}');">
+$rows = get_field('review');
+if($rows)
+{
+	shuffle( $rows );
+ 
+	$context['reviews'] = $rows;	
+}
+```
+then in twig file loop
+```
+{% for item in reviews|slice(0,2) %}
+...
 {% endfor %}
 ```
 
