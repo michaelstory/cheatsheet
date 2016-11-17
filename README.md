@@ -151,6 +151,22 @@ Output:
 <p class="intro">Steve-O was born in London, England. His mother, Donna Gay (née Wauthier), was Canadian, and his father, Richard Glover, was American. His paternal grandfather was English and his maternal step-grandfather ...</p>
 ```
 
+### Shortcodes
+
+```
+{% filter shortcodes %}
+    [tabs tab1="Tab 1 title" tab2="Tab 2 title" layout="horizontal" backgroundcolor="" inactivecolor=""]
+        [tab id=1]
+            Something something something
+        [/tab]
+
+        [tab id=2]
+            Tab 2 content here
+        [/tab]
+    [/tabs]
+{% endfilter %}
+```
+
 ---
 
 # Google Maps
@@ -231,4 +247,29 @@ then
 <footer>{{options.copyright_info}}</footer>
 ```
 
+---
+
+# Worpress
+
+## Search
+
+```
+<!-- Search Form -->
+<form role="search" method="get" action="{{site.url}}">
+    <input type="search" autocomplete="off" value="" name="s" name="search" placeholder="Search" />
+    <input type="submit" value="" class="" />
+    <svg><use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-search" /></svg>
+</form>	
+```
+
+## Google jQuery
+
+```
+if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
+function my_jquery_enqueue() {
+   wp_deregister_script('jquery');
+   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false, null);
+   wp_enqueue_script('jquery');
+}
+```
 
