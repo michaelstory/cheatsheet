@@ -223,6 +223,182 @@ Output:
     </header>
 ```
 
+#### CSS
+
+##### Hamburger
+
+```
+/**********************
+
+    Style the c-hamburger
+
+    <!-- Mobile c-hamburger -->
+    <label for="c-hamburger__nav-trigger">
+        <span class="c-hamburger">
+          <span class="slice1"></span>
+          <span class="slice2"></span>
+          <span class="slice3"></span>
+          <p class="u-hidden-visually">Menu</p>
+      </span>
+    </label>
+    <input type="checkbox" id="c-hamburger__nav-trigger" class="u-hidden-visually" />
+
+    <header class="c-header">
+
+        <nav class="nav"></nav>
+
+    </header>
+
+    <div clas="site-wrap">
+
+**********************/
+
+.c-hamburger {
+    position: absolute;
+    top: $spacing-unit*1.8;
+    right: $spacing-unit;
+    z-index: 6000;
+    height: 34px;
+    cursor: pointer;
+    transition: all $global-transition;
+
+    @include mq(tablet) {
+        right: $spacing-unit*1.5;
+    }
+
+    span {
+        display: block;
+        width: 32px;
+        height: 2px;
+        margin: 0 0 8px 2px;
+        background: $primary-color;
+        transition: all 600ms cubic-bezier(.68, -.55, .265, 1.55);
+        -webkit-transform: translate3d(0, 0, 0);
+
+        -webkit-backface-visibility: hidden;
+           -moz-backface-visibility: hidden;
+             -o-backface-visibility: hidden;
+                backface-visibility: hidden;
+        @include mq(tablet) {
+            width: 43px;
+            margin: 0 0 10px 0;
+        }
+    }
+
+    &:hover {
+        opacity: .7;
+    }
+}
+
+label[for='c-hamburger__nav-trigger'] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 0;
+}
+
+/**********************
+
+    JS adds .mob-nav--active to html tag
+
+**********************/
+
+.js.mob-nav--active .c-hamburger span {
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+
+.js.mob-nav--active .c-hamburger span.slice1 {
+    margin-top: 12px;
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+.js.mob-nav--active .c-hamburger span.slice3 {
+    margin-top: -20px;
+    margin-left: 2px;
+    -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+
+    @include mq(tablet) {
+        margin-top: -24px;
+        margin-left: 0;
+    }
+}
+
+.js.mob-nav--active .c-hamburger span.slice1, .js.mob-nav--active .c-hamburger span.slice3 {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+/**********************
+
+    NAV enters
+
+**********************/
+
+.no-js {
+    #c-hamburger__nav-trigger:checked + .c-nav {
+        transform: translateX(0);
+    }
+}
+
+.js.mob-nav--active {
+    overflow: hidden;
+
+    .c-nav {
+        position: absolute;
+        box-shadow: -3px 0 14px rgba(0, 0, 0, .2);
+        transform: translateX(0);
+    }
+}
+```
+
+##### NAV
+
+```
+.c-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    padding: $spacing-unit;
+    overflow: scroll;
+    line-height: 1.23;
+    background: white;
+    transition: all .3s cubic-bezier(.17,.67,.28,.92);
+    transform: translateX(100%);
+    @include inuit-font-size(20px);
+    
+    @include mq(tablet) {
+        max-width: 514px;
+        padding-left: $spacing-unit*2.7;
+        line-height: 1.25;
+        transform: translateX(514px);
+
+        @include inuit-font-size(40px);
+    }
+
+    li {
+        a {
+            color: $base-color;
+            &:hover {
+                color: $primary-color;
+            }
+        }
+
+        &.active a {
+            color: $primary-color;
+        }
+    }
+}
+```
+
 ---
 
 # Google Maps
