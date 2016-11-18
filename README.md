@@ -167,6 +167,62 @@ Output:
 {% endfilter %}
 ```
 
+### Menu
+```
+{% if menu %}
+    <ul>
+    {% for item in menu %}
+
+        <li class="c-nav__item{% if item.current or item.current_item_parent or item.current_item_ancestor or post_type_slug == item.get_link %} active{% endif %}">
+            <a class="c-nav-item__link" href="{{item.get_link}}" >
+                {{item.title}}
+            </a>
+                {% if item.get_children %}
+                    <ul class="c-nav__child-menu">
+                    {% for child in item.get_children %}
+                        <li class="c-nav__item {% if child.current or child.current_item_parent %} active{% endif %}">
+                            <a class="c-nav-item__link" href="{{child.get_link}}">{{child.title}}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+```
+
+#### Base.twig
+
+```
+<!-- Mobile Hamburger -->
+    <label for="c-hamburger__nav-trigger">
+        <span class="c-hamburger js-c-hamburger">
+            <span class="slice1"></span>
+            <span class="slice2"></span>
+            <span class="slice3"></span>
+            <span class="u-hidden-visually">Menu</span>
+        </span>
+    </label>
+
+
+    <!-- Site c-header -->
+    <header class="c-header">
+
+        <!-- Branding can change h1 to div on internal pages -->
+        <h1 class="c-header__branding u-pt u-pl"><a href="{{site.url}}" class="c-header-branding__link"><span class="u-hidden-visually">{{site.name}}</span> <svg class="c-header-branding__img" width="162px" height="79px"><use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-branding"></use></svg></a></h1>
+    
+      <input type="checkbox" id="c-hamburger__nav-trigger" class="u-hidden-visually" />
+      <div class="c-nav">
+          <svg class="" width="162px" height="79px"><use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-branding"></use></svg>
+          <nav>
+              {% include "menu.twig" with {'menu': menu.get_items} %}
+          </nav> 
+      </div> 
+
+    </header>
+```
+
 ---
 
 # Google Maps
