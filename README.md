@@ -88,6 +88,20 @@ make it responsive
 
 # Timber Twig
 
+## Replace
+
+```
+{{options.facebook_url|replace({'http://': ''})}}
+```
+
+## Featured Image with Alt text
+
+```
+{% if post.thumbnail %}
+      <img class="u-aligncenter" src="{{post.thumbnail.src}}" alt="{% if post.thumbnail._wp_attachment_image_alt %}{{post.thumbnail._wp_attachment_image_alt}}{% else %}{{post.title}}{% endif %}" />
+    {% endif %}
+```
+
 ## Loop iteration
 
 Use Slice
