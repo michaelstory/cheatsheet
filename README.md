@@ -102,6 +102,24 @@ make it responsive
     {% endif %}
 ```
 
+## Timber Image Bits
+
+<https://github.com/timber/timber/wiki/TimberImage>
+
+```
+<img src="{{post.get_thumbnail.src|resize(600, 400)}}" />
+```
+This will resize the image to 600 x 400 pixels.
+
+```
+<img src="{{post.get_thumbnail.src|resize(600)}}" />
+```
+This will resize the image to 600 pixels wide. The height will be determined naturally based on preserving the image's aspect ratio.
+```
+<img src="{{post.get_thumbnail.src|resize(600, 400, 'top')}}" />
+```
+This will resize the image to 600 x 400 pixels. In cropping it will crop starting from the top edge. The other cropping options are: default(which generally crops from the center, but in vertical situations has a bias toward preserving the top of the image), center, top, 'top-center', bottom, 'bottom-center', left and right.
+
 ## Loop iteration
 
 Use Slice
@@ -411,6 +429,66 @@ label[for='c-hamburger__nav-trigger'] {
         }
     }
 }
+```
+
+### Timber Multiple Loops
+
+Example in an archive page:
+
+```
+$templates = array( 'archive.twig', 'index.twig' );
+
+$context = Timber::get_context();
+
+$context['title'] = 'Archive';
+if ( is_day() ) {
+  $context['title'] = 'Archive: '.get_the_date( 'D M Y' );
+} else if ( is_month() ) {
+  $context['title'] = 'Archive: '.get_the_date( 'M Y' );
+} else if ( is_year() ) {
+  $context['title'] = 'Archive: '.get_the_date( 'Y' );
+} else if ( is_tag() ) {
+  $context['title'] = single_tag_title( '', false );
+} else if ( is_category() ) {
+  $context['title'] = single_cat_title( '', false );
+  array_unshift( $templates, 'archive-' . get_query_var( 'cat' ) . '.twig' );
+} else if ( is_post_type_archive() ) {
+  $context['title'] = post_type_archive_title( '', false );
+  array_unshift( $templates, 'archive-' . get_post_type() . '.twig' );
+}
+
+if(get_post_type() == 'farmer') {
+  $args = array('posts_per_page' => '1', 'post_type' => 'farmer', 'orderby' => 'rand');
+  $featured_farmer = Timber::get_posts($args);
+  
+  
+  $args2 = array('posts_per_page' => '-1', 'post_type' => 'farmer', 'orderby' => 'rand');
+  $all_farmers = Timber::get_posts($args2);
+  
+  
+  $all_farmers_less_featured = array_diff($all_farmers, $featured_farmer);
+  
+  
+  $context['featured_farmer'] = $featured_farmer;
+  $context['all_farmers'] = $all_farmers_less_featured;
+
+} else {
+  $context['posts'] = Timber::get_posts();
+}
+
+Timber::render( $templates, $context );
+```
+
+Then on archive page or wherever etc:
+
+```
+{% for post in featured_farmer %}
+      <h1 class="u-hl-white">{{post.title}}</h1>
+    {% endfor %}
+    
+    {% for post in all_farmers %}
+      <p>{{post.title}}</p>
+    {% endfor %}
 ```
 
 ---
