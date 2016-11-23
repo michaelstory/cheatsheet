@@ -152,6 +152,10 @@ if($rows)
  
 	$context['reviews'] = $rows;	
 }
+
+<!-- grab from other pages -->
+$rows = get_field('team_member', 11);
+   
 ```
 then in twig file loop
 ```
