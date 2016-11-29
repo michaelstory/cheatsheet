@@ -11,6 +11,10 @@ $spacing-unit: $inuit-global-spacing-unit;
 ## Custom Spacing
 
 ```
+/* ==========================================================================
+   #SPACING
+   ========================================================================== */
+
 $inuit-spacing-directions: (
   null: null,
   't': '-top',
@@ -22,36 +26,62 @@ $inuit-spacing-directions: (
 ) !default;
 
 $inuit-spacing-properties: (
-  'padding': 'p',
-  'margin': 'm'
-);
+  'p': 'padding',
+  'm': 'margin',
+) !default;
 
 $inuit-spacing-sizes: (
   null: $inuit-global-spacing-unit,
-  '--': $inuit-global-spacing-unit-tiny,
-  '-': $inuit-global-spacing-unit-small,
+  '-': $inuit-global-spacing-unit-tiny,
+  '--': $inuit-global-spacing-unit-small,
   \+: $inuit-global-spacing-unit-large,
   \+\+: $inuit-global-spacing-unit-huge,
   '0': 0
 ) !default;
+
+@each $property-namespace, $property in $inuit-spacing-properties {
+
+  @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
+
+    @each $size-namespace, $size in $inuit-spacing-sizes {
+
+      .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
+
+        @each $direction in $direction-rules {
+          #{$property}#{$direction}: $size !important;
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
 ```
 
 make it responsive
 
 ```
+
 @if (variable-exists(mq-breakpoints)) {
 
   @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
 
     @include mq($from: $inuit-bp-name) {
-      @each $property, $property-namespace in $inuit-spacing-properties {
+      @each $property-namespace, $property in $inuit-spacing-properties {
 
-        @each $direction, $direction-namespace in $inuit-spacing-directions {
+        @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
 
-          @each $size, $value in $inuit-spacing-sizes {
+          @each $size-namespace, $size in $inuit-spacing-sizes {
 
-            .u-#{$property-namespace}#{$direction-namespace}#{$size}\@#{$inuit-bp-name} {
-              #{$property}#{$direction}: $value !important;
+            .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}\@#{$inuit-bp-name} {
+
+              @each $direction in $direction-rules {
+                #{$property}#{$direction}: $size !important;
+              }
+
             }
 
           }
@@ -59,7 +89,7 @@ make it responsive
         }
 
       }
-      
+
     }
 
   }
@@ -81,6 +111,9 @@ make it responsive
 
 ## SVGO
 <https://jakearchibald.github.io/svgomg/>
+
+## DB Find and Replace
+https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
 
 ---
 
@@ -575,9 +608,40 @@ then
 <footer>{{options.copyright_info}}</footer>
 ```
 
+## Migrate Fields
+
+```
+$test_page_id = 266;
+$home = 4;
+
+if( have_rows('south_island', $home) ):
+      
+  $i = 0;
+    
+  while ( have_rows('south_island', $home) ) : the_row();
+          
+    $o = 0;
+       
+       while ( have_rows('stockist', $home) ) : the_row();
+              
+          $name = get_sub_field('name');
+          $email = get_sub_field('email');
+          $p = get_sub_field('premium_range');
+          $g = get_sub_field('gluten_freen');
+
+          update_sub_field( 'name', $name, $test_page_id );
+          update_sub_field( 'email', $email, $test_page_id );
+          update_sub_field( 'premium_range', $p, $test_page_id );
+          update_sub_field( 'gluten_freen', $g, $test_page_id );
+          
+      endwhile; 
+  endwhile;
+      
+endif;
+
 ---
 
-# Worpress
+# Wordpress
 
 ## Search
 
