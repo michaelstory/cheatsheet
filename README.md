@@ -219,6 +219,18 @@ Output:
 
 <p class="intro">Steve-O was born in London, England. His mother, Donna Gay (née Wauthier), was Canadian, and his father, Richard Glover, was American. His paternal grandfather was English and his maternal step-grandfather ...</p>
 ```
+### Loop Index
+
+If you wanna get a number for how many loops or odd even etc
+
+```
+{% if loop.index0 is even %}
+
+or
+
+{% loop.index0 %} 
+
+```
 
 ### Shortcodes
 
