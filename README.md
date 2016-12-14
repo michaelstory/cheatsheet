@@ -113,7 +113,10 @@ make it responsive
 <https://jakearchibald.github.io/svgomg/>
 
 ## DB Find and Replace
-https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
+<https://interconnectit.com/products/search-and-replace-for-wordpress-databases/>
+
+## Social Link Generator
+<http://www.sharelinkgenerator.com/>
 
 ---
 
@@ -230,6 +233,30 @@ or
 
 {% loop.index0 %} 
 
+```
+
+nested loop index's
+
+```
+{% for category in post.get_field('category') %}
+
+  <div class="u-mb++" id="category-{{loop.index0}}">
+
+    <h2 class="u-body u-h3 u-400 u-hl-primary">{{category.category_heading}}</h2>
+
+    {% for item in category.question %}
+
+      <p class="u-700 u-mb-- u-pt--">{{item.question}} <span href="#question-{{loop.parent.loop.index0}}{{loop.index0}}" class="u-alignright u-m0 u-mt-- c-toggle-trigger js-toggle-trigger"><svg height="20px" width="20px"><use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-right" /></svg></span></p>
+      <div class="c-toggle-content" id="question-{{loop.parent.loop.index0}}{{loop.index0}}">
+        {{item.answer}} 
+      </div>
+
+    {% endfor %}
+
+  <hr class="u-mb--"> 
+
+  </div>
+{% endfor %}
 ```
 
 ### Shortcodes
@@ -538,6 +565,13 @@ Then on archive page or wherever etc:
     {% for post in all_farmers %}
       <p>{{post.title}}</p>
     {% endfor %}
+```
+
+### Image Caption
+
+```
+ <img src="{{TimberImage(item.image).src}}" />
+  <p class="caption">{{TimberImage(item.image).caption}}</p>
 ```
 
 ---
