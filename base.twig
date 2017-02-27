@@ -1,0 +1,88 @@
+{% include '/includes/html-header.twig' %}
+
+	<body class="{{body_class}}" data-template="base.twig">
+		<header class="c-header">
+
+			<div class="u-pv c-header__top-strip u-bg-gradient">
+
+				<div class="o-wrapper">
+				
+					<a class="svg-circle u-va-middle" target="_blank" href="{{options.facebook_url}}">
+						<svg width="18px" height="18px">
+				          <use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-facebook-logo" />
+				        </svg>
+					</a>
+					<a class="svg-circle u-va-middle" target="_blank" href="{{options.linkedin_url}}">
+						<svg width="18px" height="18px">
+				          <use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-linkedin-letters" />
+				        </svg>
+					</a>
+					<a class="svg-circle u-va-middle u-hide@desktop" href="">
+						<svg width="18px" height="18px">
+				          <use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-magnifying-glass" />
+				        </svg>
+					</a>
+
+					<form class="c-top-strip__search u-hide@until-desktop" role="search" method="get" action="{{site.url}}">
+					    <input type="search" autocomplete="off" value="" name="s" placeholder="Search" />
+					    <input class="c-btn c-btn--inline-form" type="submit" value="Enquire" class="" />
+					    </svg>
+					</form> 
+
+					<a class="u-secret-link c-top-strip__phone-number" href="tel:{{options.global_phone_number|replace({' ': ''})}}">PH: {{options.global_phone_number}}</a>
+				</div>
+
+			</div>
+		
+			<div class="c-header__navigation o-wrapper">
+				{% if is_home %}<h1 {% else %} <div {% endif %} class="c-header__branding">
+
+				  <a href="{{site.url}}" rel="home">
+				    <span class="u-hidden-visually">{{site.name}}</span>
+				   <img src="{{site.theme.link}}/assets/img/branding.png" alt="{{site.title}}" />
+				  </a>
+				{% if is_home %}</h1> {% else %} </div> {% endif %}
+
+				<nav class="c-nav">
+					{% include "menu.twig" with {'menu': menu.get_items} %}
+				</nav><!-- #nav -->
+			</div>
+		
+		</header>
+
+		<!-- MAIN CONTENT -->
+		<main>
+			
+			{% block content %}
+					
+			{% endblock %}
+
+		</main>
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			{% include '/includes/footer.twig' %}
+		</footer>
+
+		<!-- SCRIPTS -->		
+		{{ function('wp_footer') }}
+		<script src="{{site.theme.link}}/assets/js/common.min.js"></script>
+
+		<!-- MOBILE NAV -->
+		<label class="c-hamburger-label" for="c-hamburger__input">
+            <span class="c-hamburger js-c-hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="u-hidden-visually">Menu</span>
+            </span>
+        </label>
+        
+        <input type="checkbox" id="c-hamburger__input" class="u-hidden-visually" />
+        <nav class="c-mobile-nav u-bg-gradient">
+			{% include "menu.twig" with {'menu': menu.get_items} %}
+		</nav><!-- #nav -->
+	
+	</body>
+</html>

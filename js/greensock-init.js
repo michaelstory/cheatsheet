@@ -1,0 +1,11 @@
+TweenMax.to("#one", 1.5, {y:20, repeat:-1, delay: 0.2, yoyo:true, ease: Power3.easeInOut});
+TweenMax.to("#two", 1.5, {y:-10, repeat:-1, delay: 0.3, yoyo:true, ease: Power3.easeInOut});
+TweenMax.to("#three", 1.5, {y:-30, repeat:-1, delay: 0.5, yoyo:true, ease: Power3.easeInOut});
+TweenMax.to("#four", 1.5, {y:-40, repeat:-1, delay: 0.1,yoyo:true, ease: Power3.easeInOut});
+TweenMax.to("#five", 1.5, {y:30, repeat:-1, delay: 0.6, yoyo:true, ease: Power3.easeInOut});
+TweenMax.staggerFrom("#graphic polygon", 1.3, {opacity: 0, delay: 0.5}, 0.2);
+TweenMax.to("#graphic", 0.8, {opacity: 1, delay: 0.5});
+TweenMax.to("#graphic", 0.8, {opacity: 0, delay: 3});
+TweenMax.to(".overlay", 0.8, {zIndex: -1, opacity: 0, delay: 3});
+TweenMax.from(".home", 0.8, {css:{overflow:'hidden'}, delay: 3});
+TweenMax.staggerFrom(".home .js-isotope__item", 0.4, {opacity: 0, delay: 3.8}, 0.3);

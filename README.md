@@ -1,3 +1,36 @@
+# Twig Timber Functions for ACF etc handy stuff
+
+```
+
+if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
+function my_jquery_enqueue() {
+   wp_deregister_script('jquery');
+   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js", false, null, true);
+   wp_enqueue_script('jquery');
+}
+
+if( function_exists('acf_add_options_page') ) {
+
+    acf_add_options_page();
+
+}
+
+add_filter( 'timber_context', 'mytheme_timber_context'  );
+
+function mytheme_timber_context( $context ) {
+    $context['options'] = get_fields('option');
+    return $context;
+}
+```
+
+# No JS
+
+```
+<script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+```
+
 # Inuit CSS
 
 <https://github.com/inuitcss/inuitcss>
@@ -15,6 +48,7 @@ $spacing-unit: $inuit-global-spacing-unit;
    #SPACING
    ========================================================================== */
 
+// Spacings
 $inuit-spacing-directions: (
   null: null,
   't': '-top',
@@ -23,21 +57,21 @@ $inuit-spacing-directions: (
   'l': '-left',
   'h': '-left' '-right',
   'v': '-top' '-bottom',
-) !default;
+);
 
 $inuit-spacing-properties: (
   'p': 'padding',
   'm': 'margin',
-) !default;
+);
 
 $inuit-spacing-sizes: (
   null: $inuit-global-spacing-unit,
-  '-': $inuit-global-spacing-unit-tiny,
-  '--': $inuit-global-spacing-unit-small,
+  '--': $inuit-global-spacing-unit-tiny,
+  '-': $inuit-global-spacing-unit-small,
   \+: $inuit-global-spacing-unit-large,
   \+\+: $inuit-global-spacing-unit-huge,
   '0': 0
-) !default;
+);
 
 @each $property-namespace, $property in $inuit-spacing-properties {
 
@@ -59,36 +93,31 @@ $inuit-spacing-sizes: (
 
 }
 
-```
-
-make it responsive
-
-```
-
 @if (variable-exists(mq-breakpoints)) {
 
   @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
 
     @include mq($from: $inuit-bp-name) {
-      @each $property-namespace, $property in $inuit-spacing-properties {
+      
+     @each $property-namespace, $property in $inuit-spacing-properties {
 
-        @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
+       @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
 
-          @each $size-namespace, $size in $inuit-spacing-sizes {
+         @each $size-namespace, $size in $inuit-spacing-sizes {
 
-            .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}\@#{$inuit-bp-name} {
+           .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}\@#{$inuit-bp-name} {
 
-              @each $direction in $direction-rules {
-                #{$property}#{$direction}: $size !important;
-              }
+             @each $direction in $direction-rules {
+               #{$property}#{$direction}: $size !important;
+             }
 
-            }
+           }
 
-          }
+         }
 
-        }
+       }
 
-      }
+     }
 
     }
 
@@ -123,6 +152,20 @@ make it responsive
 
 
 # Timber Twig
+
+## Handling H1 in base.twig
+
+```
+{% if is_home %}<h1 {% else %} <div {% endif %} class="c-header__branding u-mb0">
+
+  <a href="{{site.url}}" rel="home">
+    <span class="u-hidden-visually">{{site.name}}</span>
+    <svg>
+            <use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-branding{{svg_color}}" />
+        </svg>
+  </a>
+{% if is_home %}</h1> {% else %} </div> {% endif %}
+```
 
 ## Replace
 
@@ -706,7 +749,7 @@ endif;
 if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
 function my_jquery_enqueue() {
    wp_deregister_script('jquery');
-   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", false, null);
+   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js", false, null);
    wp_enqueue_script('jquery');
 }
 ```
