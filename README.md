@@ -134,6 +134,24 @@ then
 {% set gallery_number = post.get_field('gallery')|length %}
 ```
 
+## ACF Flexible Content
+
+```
+{% for item in post.flexible_content_field %}
+                  
+    {# Title with Text #}
+    {% if item.acf_fc_layout == 'general_content' %} 
+
+      {{item.heading}} ... etc
+
+    {% endif %}
+
+    {% elseif item.acf_fc_layout == 'columns' %} etc
+
+{% endfor %}
+
+```
+                
 
 ## Loop iteration
 
