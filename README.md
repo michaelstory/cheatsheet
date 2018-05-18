@@ -31,100 +31,6 @@ function mytheme_timber_context( $context ) {
 </script>
 ```
 
-# Inuit CSS
-
-<https://github.com/inuitcss/inuitcss>
-
-<https://github.com/batchdev/inuitcss>
-
-## Alias
-
-$spacing-unit: $inuit-global-spacing-unit;
-
-## Custom Spacing
-
-```
-/* ==========================================================================
-   #SPACING
-   ========================================================================== */
-
-// Spacings
-$inuit-spacing-directions: (
-  null: null,
-  't': '-top',
-  'r': '-right',
-  'b': '-bottom',
-  'l': '-left',
-  'h': '-left' '-right',
-  'v': '-top' '-bottom',
-);
-
-$inuit-spacing-properties: (
-  'p': 'padding',
-  'm': 'margin',
-);
-
-$inuit-spacing-sizes: (
-  null: $inuit-global-spacing-unit,
-  '--': $inuit-global-spacing-unit-tiny,
-  '-': $inuit-global-spacing-unit-small,
-  \+: $inuit-global-spacing-unit-large,
-  \+\+: $inuit-global-spacing-unit-huge,
-  '0': 0
-);
-
-@each $property-namespace, $property in $inuit-spacing-properties {
-
-  @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
-
-    @each $size-namespace, $size in $inuit-spacing-sizes {
-
-      .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
-
-        @each $direction in $direction-rules {
-          #{$property}#{$direction}: $size !important;
-        }
-
-      }
-
-    }
-
-  }
-
-}
-
-@if (variable-exists(mq-breakpoints)) {
-
-  @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
-
-    @include mq($from: $inuit-bp-name) {
-      
-     @each $property-namespace, $property in $inuit-spacing-properties {
-
-       @each $direction-namespace, $direction-rules in $inuit-spacing-directions {
-
-         @each $size-namespace, $size in $inuit-spacing-sizes {
-
-           .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}\@#{$inuit-bp-name} {
-
-             @each $direction in $direction-rules {
-               #{$property}#{$direction}: $size !important;
-             }
-
-           }
-
-         }
-
-       }
-
-     }
-
-    }
-
-  }
-
-}
-```
 
 ---
 
@@ -199,6 +105,36 @@ This will resize the image to 600 pixels wide. The height will be determined nat
 ```
 This will resize the image to 600 x 400 pixels. In cropping it will crop starting from the top edge. The other cropping options are: default(which generally crops from the center, but in vertical situations has a bias toward preserving the top of the image), center, top, 'top-center', bottom, 'bottom-center', left and right.
 
+## pass acf to repeater partial
+
+```
+{% for gallery_image in post.get_field('gallery') %}
+
+      {% include "partial/gallery.twig" with {gallery_item:gallery_image} %}
+
+    {% endfor %}
+```
+then
+```
+<div class="o-layout__item u-1/{{gallery_number}}">
+  <img src="{{gallery_image.image|resize(700, 467)}}" />
+</div>
+```
+
+## random 1 row
+```
+{% set hero_image = random(post.get_field('banner_image')) %}
+
+<img src="{{ hero_image.image|resize(1300, 867) }}" />
+```
+
+## how many rows acf
+
+```
+{% set gallery_number = post.get_field('gallery')|length %}
+```
+
+
 ## Loop iteration
 
 Use Slice
@@ -227,9 +163,9 @@ First randomize in PHP file, got this from <https://support.advancedcustomfields
 $rows = get_field('review');
 if($rows)
 {
-	shuffle( $rows );
+  shuffle( $rows );
  
-	$context['reviews'] = $rows;	
+  $context['reviews'] = $rows;  
 }
 
 <!-- grab from other pages -->
@@ -633,23 +569,23 @@ Then on archive page or wherever etc:
 
 <div id="map"></div>
 <script>
-	function initMap() {
-		var cape_campbell = {lat: -41.727409390266, lng: 174.27447154815695};
-		var map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 14,
-			center: cape_campbell,
-			mapTypeId: google.maps.MapTypeId.SATELLITE,
-			scrollwheel: false,
-			//navigationControl: false,
-			//mapTypeControl: false,
-			//scaleControl: false,
-			//draggable: false,
-		});
-		var marker = new google.maps.Marker({
-			position: cape_campbell,
-			map: map
-		});
-	}
+  function initMap() {
+    var cape_campbell = {lat: -41.727409390266, lng: 174.27447154815695};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: cape_campbell,
+      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      scrollwheel: false,
+      //navigationControl: false,
+      //mapTypeControl: false,
+      //scaleControl: false,
+      //draggable: false,
+    });
+    var marker = new google.maps.Marker({
+      position: cape_campbell,
+      map: map
+    });
+  }
 </script>
 
 <script async defer
@@ -664,9 +600,9 @@ src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
 
 ```
 if( function_exists('acf_add_options_page') ) {
-	
-	acf_add_options_page();
-	
+  
+  acf_add_options_page();
+  
 }
 ```
 
@@ -740,7 +676,7 @@ endif;
     <input type="search" autocomplete="off" value="" name="s" name="search" placeholder="Search" />
     <input type="submit" value="" class="" />
     <svg><use xlink:href="{{site.theme.link}}/assets/img/svg-defs.svg#shape-search" /></svg>
-</form>	
+</form> 
 ```
 
 ## Google jQuery
